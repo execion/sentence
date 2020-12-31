@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Sentence } from 'src/entity/sentence.entity';
 import { Repository } from 'typeorm';
 
-
 @Injectable()
 export class SentenceService {
     constructor(
@@ -13,11 +12,7 @@ export class SentenceService {
 
     async getSentences() {
         let query = await this.sentenceRepository.find();
-        /* let fs = require("fs");
-        for await(let i of query) {
-            fs.writeFileSync("async.txt", i.sentence + ".\n", {flag: "a+"});
-        } */
-        return query.slice(250, 300);
+        return query;
     }
 
     async createSentence(sentence: string) {
@@ -32,6 +27,19 @@ export class SentenceService {
             await this.sentenceRepository.createQueryBuilder().insert().into(Sentence).values({sentence: temp}).execute();
             return true;
         }
+    }
+
+    async createAudio(id: number) {
+        const fs = require('fs');
+        const tts = require('google-translate-tts');
+
+        let sentence = await this.sentenceRepository.createQueryBuilder().select("sentence").from(Sentence, "sentence").where(`sentence.id = "${id}"`).getOne();
+        const buffer = await tts.synthesize({
+            text: `${sentence.sentence}`,
+            voice: 'en-US',
+            slow: false
+        })
+        await fs.writeFileSync("./assets/audio.mp3", buffer);
     }
 
 }
