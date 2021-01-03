@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Sentence } from 'src/entity/sentence.entity';
 import { Repository } from 'typeorm';
+import * as fs from 'fs';
+import * as tts from 'google-translate-tts';
 
 @Injectable()
 export class SentenceService {
@@ -30,14 +32,11 @@ export class SentenceService {
     }
 
     async createAudio(id: number) {
-        const fs = require('fs');
-        const tts = require('google-translate-tts');
-
         let sentence = await this.sentenceRepository.createQueryBuilder().select("sentence").from(Sentence, "sentence").where(`sentence.id = "${id}"`).getOne();
         const buffer = await tts.synthesize({
             text: `${sentence.sentence}`,
             voice: 'en-US',
-            slow: false
+            slow: true
         })
         await fs.writeFileSync("./assets/audio.mp3", buffer);
     }
