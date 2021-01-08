@@ -40,7 +40,6 @@ export class LoginService {
     }
 
     async enterLogin(user: Login) {
-        console.log(user);
         let existing = await this.loginRepository.createQueryBuilder()
             .select("login")
             .from(LoginEntity, "login")
