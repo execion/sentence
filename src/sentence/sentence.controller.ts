@@ -1,16 +1,17 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { SentenceDto } from 'src/models/sentence.dto';
+import { SentenceDto } from './models/sentence.dto';
 import { SentenceService } from './sentence.service';
 import {resolve} from 'path';
+
 @Controller('api')
 export class SentenceController {
     constructor(
         private readonly sentenceService: SentenceService
     ) {}
-    @Get("sentences")
-    getSentences() {
-        return this.sentenceService.getSentences();
+    @Post("sentences")
+    getSentences(@Body() body: SentenceDto) {
+        return this.sentenceService.getSentences(body.passport);
     }
     @Post("create/sentence")
     async createSentence(@Body() createSen: SentenceDto ) {
