@@ -30,8 +30,11 @@ export class SentenceService {
 
     async createSentence(sentence: string) {
         let temp = sentence[sentence.length - 1] === "." ? sentence.substring(0, sentence.length - 1 ) : sentence ;
-        let existing = await this.sentenceRepository.createQueryBuilder("sentence")
-            .where("sentence.sentence = :sentence", {sentence: sentence} ).getOne();
+        let existing = await this.sentenceRepository.createQueryBuilder().select("sentence")
+        .from(Sentence, "sentence")
+        .where("sentence.sentence = :sentence", { sentence: temp })
+        .getOne();
+        console.log(existing);
         if(existing) {
             return false;
         } else {
