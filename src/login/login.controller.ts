@@ -10,7 +10,6 @@ export class LoginController {
     ) {}
     @Post("access")
     enterLogin(@Body() user: LoginDto) {
-        console.log(user);
         return this.loginService.enterLogin(user);
     }
 
