@@ -1,6 +1,6 @@
 export default class NewUserDto {
-    user: string;
+    username: string;
     password: string;
-    repeatPassword: string;
+    repeatpassword: string;
     email: string;
 }

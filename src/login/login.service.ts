@@ -19,16 +19,16 @@ export class LoginService {
     }
 
     async createUser(newUser: NewUser) {
-        if(newUser.password === newUser.repeatPassword) {
+        if(newUser.password === newUser.repeatpassword) {
             let existing = await this.loginRepository.createQueryBuilder()
                 .select("login")
                 .from(LoginEntity, "login")
-                .where(`login.user = "${newUser.user}"`).getOne();
+                .where(`login.user = "${newUser.username}"`).getOne();
             if(existing) {
                 return false
             } else {
                 await this.loginRepository.createQueryBuilder().insert().into(LoginEntity).values({
-                    user: newUser.user,
+                    user: newUser.username,
                     password: newUser.password,
                     email: newUser.email,
                     passport: uuidv4()
@@ -43,7 +43,7 @@ export class LoginService {
         let existing = await this.loginRepository.createQueryBuilder()
             .select("login")
             .from(LoginEntity, "login")
-            .where(`login.user = "${user.user}"`).getOne();
+            .where(`login.user = "${user.username}"`).getOne();
         if(existing && user.password === existing.password) {
             return JSON.stringify(existing.passport);
         }

@@ -34,7 +34,6 @@ export class SentenceService {
         .from(Sentence, "sentence")
         .where("sentence.sentence = :sentence", { sentence: temp })
         .getOne();
-        console.log(existing);
         if(existing) {
             return false;
         } else {
