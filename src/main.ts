@@ -7,3 +7,5 @@ async function bootstrap() {
   await app.listen(8000);
 }
 bootstrap();
+
+/* For initialize the application create the ormconfig file for the database */

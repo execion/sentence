@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity("login")
 export class LoginEntity {
@@ -17,9 +17,9 @@ export class LoginEntity {
     @Column()
     passport: string;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
-    date_passport: string;
+    @CreateDateColumn()
+    create_at: Date;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
-    create_date: string;
+    @UpdateDateColumn()
+    modified_at: Date;
 }

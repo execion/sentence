@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { SentenceModule } from './sentence/sentence.module';
 import { LoginModule } from './login/login.module';
+import { ScoreModule } from './score/score.module';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { LoginModule } from './login/login.module';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "static"),
     }), 
-    LoginModule
+    LoginModule, ScoreModule
   ]
 })
 export class AppModule {}
