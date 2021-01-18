@@ -8,4 +8,7 @@ async function bootstrap() {
 }
 bootstrap();
 
-/* For initialize the application create the ormconfig file for the database */
+/* 
+  For initialize the application create the ormconfig file for the database.
+  The application have server static for navigate.
+*/
