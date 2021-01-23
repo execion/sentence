@@ -9,6 +9,9 @@ export class ScoreEntity {
     id_sentence: number;
 
     @Column()
+    id_user: number;
+
+    @Column()
     correct: number;
 
     @Column()

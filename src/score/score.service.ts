@@ -11,7 +11,51 @@ export class ScoreService {
         private scoreEntity: Repository<ScoreEntity>
     ) {}
 
-    setScore(score: Score) {
-        console.log(score);
+    async setScore(score: Score) {
+        const findId = await this.scoreEntity.createQueryBuilder()
+        .select("score")
+        .from(ScoreEntity, "score")
+        .where(`score.id_sentence = "${score.id}"`).getOne();
+        if(findId) {
+            if(score.correct) {
+                await this.scoreEntity.createQueryBuilder()
+                    .update(ScoreEntity)
+                    .set({
+                        correct: findId.correct + 1
+                    })
+                    .where("id = :id", {id: findId.id})
+                    .execute();
+            } else {
+                await this.scoreEntity.createQueryBuilder()
+                    .update(ScoreEntity)
+                    .set({
+                        incorrect: findId.incorrect + 1
+                    })
+                    .where("id = :id", {id: findId.id})
+                    .execute();
+            }
+        } else {
+            if(score.correct){
+                await this.scoreEntity.createQueryBuilder()
+                    .insert().into(ScoreEntity)
+                    .values({
+                        id_sentence: score.id,
+                        id_user: 1,
+                        correct: 1,
+                        incorrect: 0
+                    }
+                ).execute();
+            } else {
+                await this.scoreEntity.createQueryBuilder()
+                    .insert().into(ScoreEntity)
+                    .values({
+                        id_sentence: score.id,
+                        id_user: 1,
+                        incorrect: 1,
+                        correct: 0
+                    }
+                ).execute();
+            }
+        }
     }
 }
