@@ -1,4 +1,9 @@
 export interface Score {
     id: number;
-    correct: boolean;
+    answerCorrect: string;
+    answerUser: ListWord[];
+}
+export interface ListWord {
+    id: string;
+    letter: string;
 }
