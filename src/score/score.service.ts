@@ -69,7 +69,6 @@ export class ScoreService {
         const result = {
             result: correct
         }
-        console.log(result);
         return result;
     }
 }
